@@ -9,11 +9,15 @@
 //     console.log(get_num(4));
 //   })(
 
-import init, {get_string} from "./rust_project.js"
+import init, {get_num, get_string, get_data} from "./rust_project.js"
 
 (async () => {
     await init("http://localhost:3000/rust_project_bg.wasm")
 
-    console.log(get_string("hello, i am calling uou from js"));
+    console.log(get_num(3));
+    console.log(get_string("rust"));
+    const {results} = await get_data("https://dbpedia.org/sparql", "select distinct ?Concept where {[] a ?Concept} LIMIT 50")
+    const {bindings} = results
+    bindings.map(binding => console.log(binding.Concept.value))
 })()
 
